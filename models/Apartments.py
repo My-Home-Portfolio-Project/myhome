@@ -1,44 +1,62 @@
 #!/usr/bin/python3
-from models.base_model import BaseModel, Base
-from sqlalchemy import Column, String, ForeignKey
+ from models.base_model import BaseModel
+from sqlalchemy import Column, String, Integer, ForeignKey
 from sqlalchemy.orm import relationship
-from os import getenv
-import models
 
+class Apartment(BaseModel):
+    """
+    Apartment class to represent an apartment.
+    """
+    __tablename__ = 'apartments'
 
-storage_t = getenv('HBNB_TYPE_STORAGE')
+    name = Column(String(128), nullable=False)  # Apartment name
+    apartment_id = Column(String(128), nullable=False, unique=True)  # Unique apartment ID
+    rooms_available = Column(Integer, nullable=False, default=0)  # Total rooms available
+    rooms_occupied = Column(Integer, nullable=False, default=0)  # Rooms currently occupied
+    landlord_id = Column(String(128), ForeignKey('users.id'), nullable=False)  # Landlord ID
+    landlord_contact = Column(String(128), nullable=False)  # Landlord contact information
 
+    landlord = relationship('User', back_populates='apartments')  # Relationship to User
 
-if storage_t == 'db':
-    class Apartment(BaseModel, Base):
-        """Apartment class for database storage"""
-        __tablename__ = 'apartments'
-        name = Column(String(128), nullable=False)
-        country_id = Column(String(70), ForeignKey('countries.id'), nullable=False)
-        # Add other apartment attributes as necessary
-else:
-    class Apartment(BaseModel):
-        """Apartment class for file storage"""
-        name = ""
-        country_id = ""
+    def __init__(self, *args, **kwargs):
+        """Initialize the Apartment object."""
+        super().__init__(*args, **kwargs)
 
-        @property
-        def country(self):
-            """Retrieve the Country instance associated with this apartment"""
-            all_countries = models.storage.all('Country')
-            return all_countries.get(self.country_id)
+    def add_rooms(self, num_rooms):
+        """
+        Add more rooms to the apartment.
+        :param num_rooms: Number of rooms to add.
+        """
+        if num_rooms < 0:
+            raise ValueError("Number of rooms to add must be positive.")
+        self.rooms_available += num_rooms
 
-# Update the Country model to include a relationship or property for apartments
-if storage_t == 'db':
-    from models.country import Country
+    def occupy_room(self, num_rooms):
+        """
+        Occupy rooms in the apartment.
+        :param num_rooms: Number of rooms to occupy.
+        """
+        if num_rooms <= 0:
+            raise ValueError("Number of rooms to occupy must be positive.")
+        if self.rooms_occupied + num_rooms > self.rooms_available:
+            raise ValueError("Not enough rooms available to occupy.")
+        self.rooms_occupied += num_rooms
 
-    Country.apartments = relationship('Apartment', backref='country', cascade='all, delete')
-else:
-    from models.country import Country
+    def vacate_room(self, num_rooms):
+        """
+        Vacate rooms in the apartment.
+        :param num_rooms: Number of rooms to vacate.
+        """
+        if num_rooms <= 0:
+            raise ValueError("Number of rooms to vacate must be positive.")
+        if self.rooms_occupied - num_rooms < 0:
+            raise ValueError("Cannot vacate more rooms than are currently occupied.")
+        self.rooms_occupied -= num_rooms
 
-    @property
-    def apartments(self):
-        """Return a list of apartments associated with the country"""
-        return [apt for apt in models.storage.all('Apartment').values() if apt.country_id == self.id]
-
-    Country.apartments = apartments
+    def __str__(self):
+        """String representation of the Apartment."""
+        return (
+            f"Apartment(name={self.name}, apartment_id={self.apartment_id}, "
+            f"rooms_available={self.rooms_available}, rooms_occupied={self.rooms_occupied}, "
+            f"landlord_id={self.landlord_id}, landlord_contact={self.landlord_contact})"
+        )

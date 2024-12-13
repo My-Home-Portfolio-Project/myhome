@@ -1,64 +1,34 @@
 #!/usr/bin/python3
+from models.base_model import BaseModel
 from sqlalchemy import Column, String
-from sqlalchemy.orm import Session
-from werkzeug.security import generate_password_hash, check_password_hash
-from models.base_model import BaseModel, Base
-from os import getenv
-import models
 
-storage_t = getenv('HBNB_TYPE_STORAGE')
+class User(BaseModel):
+    """
+    User class that inherits from BaseModel.
+    Represents a user who can be either a landlord or a tenant.
+    """
+    __tablename__ = 'users'
 
-if storage_t == 'db':
-    class User(BaseModel, Base):
-        """User class for database storage"""
-        __tablename__ = 'users'
-        email = Column(String(128), nullable=False, unique=True)
-        password_hash = Column(String(128), nullable=False)
+    email = Column(String(128), nullable=False, default="")
+    password = Column(String(128), nullable=False, default="")
+    first_name = Column(String(128), default="")
+    last_name = Column(String(128), default="")
+    role = Column(String(50), default=None)  # Role can be 'landlord' or 'tenant'
 
-        def set_password(self, password):
-            """Hash and set the user's password"""
-            self.password_hash = generate_password_hash(password)
+    def set_role(self, role):
+        """
+        Update the user's role.
+        :param role: 'landlord' or 'tenant'
+        """
+        if role in ['landlord', 'tenant']:
+            self.role = role
+        else:
+            raise ValueError("Invalid role. Choose 'landlord' or 'tenant'.")
 
-        def check_password(self, password):
-            """Verify the user's password"""
-            return check_password_hash(self.password_hash, password)
-else:
-    class User(BaseModel):
-        """User class for file storage"""
-        email = ""
-        password_hash = ""
+    def is_landlord(self):
+        """Check if the user is a landlord."""
+        return self.role == 'landlord'
 
-        def set_password(self, password):
-            """Hash and set the user's password"""
-            self.password_hash = generate_password_hash(password)
-
-        def check_password(self, password):
-            """Verify the user's password"""
-            return check_password_hash(self.password_hash, password)
-
-# Example usage
-if __name__ == "__main__":
-    # Create a new user account
-    email = input("Enter your email: ")
-    password = input("Enter your password: ")
-
-    # Check if user already exists
-    existing_users = [user for user in models.storage.all('User').values() if user.email == email]
-    if existing_users:
-        print("User already exists. Please log in.")
-    else:
-        user = User(email=email)
-        user.set_password(password)
-        models.storage.new(user)
-        models.storage.save()
-        print("Account created successfully!")
-
-    # Login process
-    email = input("Enter your email to log in: ")
-    password = input("Enter your password: ")
-
-    user = next((u for u in models.storage.all('User').values() if u.email == email), None)
-    if user and user.check_password(password):
-        print("Login successful!")
-    else:
-        print("Invalid email or password.")
+    def is_tenant(self):
+        """Check if the user is a tenant."""
+        return self.role == 'tenant'
