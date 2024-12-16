@@ -3,32 +3,56 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Register - myHome</title>
-    <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
+    <title>Sign Up</title>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <style>
+        html, body {
+           height: 100%;
+           margin: 0;
+       }
+       body {
+           background-image: url('image.jpg');
+           background-size: cover;
+           background-repeat: no-repeat;
+           background-position: center;
+           display: flex;
+           justify-content: center;
+           align-items: center;
+       }
+       .container {
+          /* Optional: to make the form stand out */
+           padding: 20px;
+           border-radius: 10px;
+       }
+   </style>
 </head>
 <body>
-    <h1>Register for myHome</h1>
-    <form method="POST" action="{{ url_for('auth.register') }}">
-        <label for="name">Name:</label>
-        <input type="text" id="name" name="name" required>
-        
-        <label for="email">Email:</label>
-        <input type="email" id="email" name="email" required>
-        
-        <label for="password">Password:</label>
-        <input type="password" id="password" name="password" required>
-        
-        <button type="submit">Register</button>
-    </form>
-    <p>Already have an account? <a href="{{ url_for('auth.login') }}">Login here</a></p>
-    {% with messages = get_flashed_messages() %}
-      {% if messages %}
-        <ul>
-          {% for message in messages %}
-            <li>{{ message }}</li>
-          {% endfor %}
-        </ul>
-      {% endif %}
-    {% endwith %}
+    <div class="container mt-5">
+        <h2>Create an Account</h2>
+        <form method="POST">
+            <div class="form-group">
+                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
+            </div>
+            <div class="form-group">
+                <input type="email" name="email" class="form-control" placeholder="Email" required>
+            </div>
+            <div class="form-group">
+                <input type="password" name="password" class="form-control" placeholder="Password" required>
+            </div>
+            <div class="form-group">
+                <select name="role" class="form-control">
+                    <option value="tenant">Tenant</option>
+                    <option value="landlord">Landlord</option>
+                </select>
+            </div>
+            <button type="submit" class="btn btn-primary">Sign Up</button>
+        </form>
+    </div>
+
+    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
+
+  
