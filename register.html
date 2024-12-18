@@ -3,56 +3,142 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Sign Up</title>
-    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <title>myHome - Sign Up</title>
+    <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&display=swap" rel="stylesheet">
     <style>
-        html, body {
-           height: 100%;
-           margin: 0;
-       }
-       body {
-           background-image: url('image.jpg');
-           background-size: cover;
-           background-repeat: no-repeat;
-           background-position: center;
-           display: flex;
-           justify-content: center;
-           align-items: center;
-       }
-       .container {
-          /* Optional: to make the form stand out */
-           padding: 20px;
-           border-radius: 10px;
-       }
-   </style>
+        body {
+            font-family: 'Roboto', sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f4f4f4;
+        }
+        .container {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            background-image: url('houseslogin.jpg'); /* Replace with your image path */
+            background-size: cover;
+            background-position: center;
+        }
+        .form-container {
+            background-color: rgba(255, 255, 255, 0.8); /* White with some transparency */
+            padding: 30px;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.1);
+            width: 100%;
+            max-width: 500px;
+        }
+        .form-container h2 {
+            text-align: center;
+            color: #333;
+            margin-bottom: 20px;
+        }
+        .input-group {
+            margin-bottom: 20px;
+        }
+        .input-group label {
+            font-weight: 500;
+            color: #333;
+        }
+        .input-group input, .input-group select {
+            width: 100%;
+            padding: 10px;
+            margin-top: 8px;
+            border: 1px solid #ccc;
+            border-radius: 4px;
+            font-size: 16px;
+            color: #333;
+        }
+        .role-choice {
+            display: flex;
+            justify-content: space-between;
+        }
+        .role-choice input[type="radio"] {
+            margin-right: 10px;
+        }
+        .btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #48c6ef;
+            color: white;
+            border: none;
+            border-radius: 4px;
+            font-size: 18px;
+            cursor: pointer;
+            transition: background-color 0.3s;
+        }
+        .btn:hover {
+            background-color: #6f86d6;
+        }
+        .footer {
+            text-align: center;
+            margin-top: 20px;
+        }
+        .footer a {
+            text-decoration: none;
+            color: #48c6ef;
+            font-weight: 500;
+        }
+        /* Title Style */
+        .site-title {
+            position: fixed;
+            top: 20px;
+            left: 20px;
+            font-size: 30px;
+            font-weight: 700;
+            color: #fff;
+            background-color: rgba(0, 0, 0, 0.5);
+            padding: 10px 20px;
+            border-radius: 5px;
+        }
+    </style>
 </head>
 <body>
-    <div class="container mt-5">
-        <h2>Create an Account</h2>
-        <form method="POST">
-            <div class="form-group">
-                <input type="text" name="name" class="form-control" placeholder="Full Name" required>
-            </div>
-            <div class="form-group">
-                <input type="email" name="email" class="form-control" placeholder="Email" required>
-            </div>
-            <div class="form-group">
-                <input type="password" name="password" class="form-control" placeholder="Password" required>
-            </div>
-            <div class="form-group">
-                <select name="role" class="form-control">
-                    <option value="tenant">Tenant</option>
-                    <option value="landlord">Landlord</option>
-                </select>
-            </div>
-            <button type="submit" class="btn btn-primary">Sign Up</button>
-        </form>
-    </div>
 
-    <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
+<!-- Title -->
+<div class="site-title">
+    myHome
+</div>
+
+<div class="container">
+    <div class="form-container">
+        <h2>Sign Up for myHome</h2>
+        <form action="/submit_signup" method="POST">
+            <div class="input-group">
+                <label for="email">Email</label>
+                <input type="email" id="email" name="email" required placeholder="Enter your email">
+            </div>
+            <div class="input-group">
+                <label for="password">Password</label>
+                <input type="password" id="password" name="password" required placeholder="Enter your password">
+            </div>
+            <div class="role-choice">
+                <div>
+                    <label for="renter">Renter</label>
+                    <input type="radio" id="renter" name="role" value="renter" required>
+                </div>
+                <div>
+                    <label for="landlord">Landlord</label>
+                    <input type="radio" id="landlord" name="role" value="landlord" required>
+                </div>
+            </div>
+            <div class="input-group">
+                <label for="name">Full Name</label>
+                <input type="text" id="name" name="name" required placeholder="Enter your full name">
+            </div>
+            <div class="input-group">
+                <label for="contact">Phone Number</label>
+                <input type="tel" id="contact" name="contact" required placeholder="Enter your phone number">
+            </div>
+            <button type="submit" class="btn">Sign Up</button>
+        </form>
+        <div class="footer">
+            <p>Already have an account? <a href="/login">Log In</a></p>
+        </div>
+    </div>
+</div>
+
 </body>
 </html>
-
-  
+ 

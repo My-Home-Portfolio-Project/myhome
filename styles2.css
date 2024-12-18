@@ -21,20 +21,7 @@ body {
 }
 
 /* Keyframes for color-changing animation */
-@keyframes colorChange {
-    0% {
-        color: green;
-    }
-    33% {
-        color: blue;
-    }
-    66% {
-        color: violet;
-    }
-    100% {
-        color: green;
-    }
-}
+
 
 .login-container {
     background: rgba(255, 255, 255, 0.8);
