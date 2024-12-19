@@ -5,57 +5,140 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>MyHome</title>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-        .hero {
-            height: 80vh;
-            background-image: url('homepagjje.jpg'); /* Replace with the actual image URL */
-            background-size: cover;
-            background-position: center;
-            color: black;
+        @keyframes backgroundAnimation {
+            0% { background-position: 0% 50%; }
+            50% { background-position: 100% 50%; }
+            100% { background-position: 0% 50%; }
         }
-        
+
+        body {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: backgroundAnimation 15s ease infinite;
+            transition: background 2s ease;
+        }
+
+        .animate-fade-in {
+            animation: fadeIn 0.8s ease-out forwards;
+            opacity: 0;
+        }
+
+        .animated-border {
+            position: relative;
+            border: 3px solid transparent;
+            border-radius: 10px;
+            background-clip: padding-box, border-box;
+            background-origin: padding-box, border-box;
+        }
+
+        .animated-border::before {
+            content: '';
+            position: absolute;
+            top: -3px;
+            left: -3px;
+            right: -3px;
+            bottom: -3px;
+            background: linear-gradient(45deg, #ff6b6b, #4ecdc4, #45aaf2, #ff6b6b);
+            background-size: 400% 400%;
+            z-index: -1;
+            animation: backgroundAnimation 15s ease infinite;
+            border-radius: 13px;
+        }
+
+        .hover-glow:hover::before {
+            animation: backgroundAnimation 5s ease infinite;
+        }
+
+        .upload-container {
+            text-align: center;
+            padding: 20px;
+            border: 2px dashed #ccc;
+            border-radius: 10px;
+            cursor: pointer;
+        }
+
+        .upload-container:hover {
+            background-color: #f9f9f9;
+        }
+
+        .upload-container input {
+            display: none;
+        }
     </style>
 </head>
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a class="navbar-brand" href="#">myHome</a>
+        <a href="#" class="navbar-brand d-flex align-items-center">
+            <img src="home.png" alt="MyHome Logo" class="mr-2" style="height: 40px;">
+            MyHome
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-        <div class="collapse navbar-collapse" id="navbarNav">
-            <ul class="navbar-nav ml-auto">
-                <li class="nav-item">
-                    <a class="nav-link" href="/signup">Sign Up</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/login">Log In</a>
-                </li>
-                <li class="nav-item">
-                    <a class="nav-link" href="/browse">Browse Listings</a>
-                </li>
-            </ul>
-        </div>
     </nav>
 
-    <!-- Hero Section -->
-    <section class="hero">
-        <div class="container text-center">
-            <h1 class="display-4">Find Your Dream Room</h1>
-            <p class="lead">Browse listings from landlords offering rooms in their apartments.</p>
-            <form class="form-inline justify-content-center" action="/search" method="get">
-                <input class="form-control mr-2" type="text" name="location" placeholder="Search by location" required>
-                <button class="btn btn-primary" type="submit">Search</button>
-            </form>
+    <div class="container-fluid px-4 py-8">
+        <!-- Landlord Profile Section -->
+        <div class="bg-white shadow-lg rounded-lg p-6 mb-8 animate-fade-in animated-border hover-glow position-relative">
+            <div class="d-flex mb-6">
+                <div class="w-24 h-24 rounded-full mr-6 profile-gradient flex items-center justify-center animate-hover-pulse">
+                    <img src="/api/placeholder/120/120" alt="Real Estate Agent" class="w-20 h-20 rounded-full object-cover" id="landlordImagePreview">
+                </div>
+                <div>
+                    <h1 class="text-2xl font-bold text-gray-800">John Smith</h1>
+                    <p class="text-gray-600">Real Estate Agent</p>
+                </div>
+            </div>
+
+            <!-- Box on the right side -->
+            <div class="position-absolute" style="top: 20px; right: 20px; width: 40%;">
+                <div class="bg-light p-4 rounded-lg shadow">
+                    <h2 class="text-lg font-bold mb-3">Contact Details</h2>
+                    <p class="mb-1"><strong>Email:</strong> johnsmith@example.com</p>
+                    <p class="mb-1"><strong>Phone:</strong> +1 234 567 890</p>
+                    <p class="mb-1"><strong>Office:</strong> 123 Maple Street</p>
+                </div>
+            </div>
+
+            <!-- Image Upload Section -->
+            <div class="upload-container mt-4">
+                <label for="landlordImageUpload">
+                    <i class="fas fa-upload text-4xl text-gray-400 mb-4"></i>
+                    <p class="text-gray-600">Click to upload an image of the landlord</p>
+                </label>
+                <input type="file" id="landlordImageUpload" accept="image/*" onchange="previewImage(event)">
+            </div>
         </div>
-    </section>
+
+        <!-- Tabs Section -->
+        <div class="mb-8 animate-fade-in delay-700">
+            <div class="flex border-b">
+                <button class="px-4 py-2 bg-blue-500 text-white rounded-t-lg mr-2 transition transform hover:scale-105">Tenant Information</button>
+                <button class="px-4 py-2 bg-gray-200 text-gray-700 rounded-t-lg transition transform hover:scale-105">Application</button>
+            </div>
+        </div>
+    </div>
 
     <footer class="bg-light text-center py-3">
-        <p>&copy; 2024 Real Estate App</p>
+        <p>&copy; 2024 MyHome Real Estate App</p>
     </footer>
+
+    <script>
+        function previewImage(event) {
+            const reader = new FileReader();
+            reader.onload = function() {
+                const preview = document.getElementById('landlordImagePreview');
+                preview.src = reader.result;
+            };
+            reader.readAsDataURL(event.target.files[0]);
+        }
+    </script>
 
     <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </body>
 </html>
-
+ 

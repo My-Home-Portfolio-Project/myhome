@@ -5,10 +5,46 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login - Real Estate</title>
     <link rel="stylesheet" href="styles2.css">
+    <style>
+        body {
+            margin: 0;
+            padding: 0;
+        }
+
+        .title-container {
+            position: fixed;
+            top: 0;
+            left: 0;
+            display: flex;
+            align-items: center;
+            gap: 10px;
+            padding: 15px;
+            background: transparent;
+            z-index: 1000;
+        }
+
+        .title-container img {
+            height: 40px;
+            width: auto;
+        }
+
+        .my_home {
+            margin: 0;
+            font-size: 24px;
+        }
+
+        /* Adjust login container to not overlap with header */
+        .login-container {
+            margin-top: 80px; /* Provide space for fixed header */
+        }
+    </style>
 </head>
 <body>
-    <!-- my_Home title outside the login container and at the left side -->
-    <h1 class="my_home">myHome</h1>
+    <!-- Moved to top left -->
+    <div class="title-container">
+        <img src="home.png" alt="myHome Logo">
+        <h1 class="my_home">myHome</h1>
+    </div>
 
     <div class="login-container">
         <header>
@@ -34,5 +70,4 @@
         </section>
     </div>
 </body>
-</html>
- 
+</html>  

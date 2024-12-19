@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,25 +8,19 @@
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
     <style>
-         @keyframes backgroundAnimation {
+        @keyframes backgroundAnimation {
             0% { background-position: 0% 50%; }
             50% { background-position: 100% 50%; }
             100% { background-position: 0% 50%; }
         }
 
         body {
-            background: linear-gradient(
-                -45deg, 
-                #ee7752, 
-                #e73c7e, 
-                #23a6d5, 
-                #23d5ab
-            );
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
             background-size: 400% 400%;
             animation: backgroundAnimation 15s ease infinite;
             transition: background 2s ease;
         }
-         
+
         @keyframes fadeIn {
             from { opacity: 0; transform: translateY(20px); }
             to { opacity: 1; transform: translateY(0); }
@@ -47,9 +42,10 @@
             animation: fadeIn 0.8s ease-out forwards;
             opacity: 0;
         }
-.navbar, footer {
-    background-color: rgba(248, 249, 250, 0.8) !important;
-}
+
+        .navbar, footer {
+            background-color: rgba(248, 249, 250, 0.8) !important;
+        }
 
         .animate-hover-pulse:hover {
             animation: pulse 1s infinite;
@@ -84,15 +80,43 @@
         .hover-glow:hover::before {
             animation: gradientAnimation 5s ease infinite;
         }
+
+        .animated-footer {
+            background: linear-gradient(-45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab);
+            background-size: 400% 400%;
+            animation: backgroundAnimation 15s ease infinite;
+            color: white;
+        }
+
+        .animated-footer p {
+            margin: 0;
+            font-size: 1rem;
+            font-weight: 500;
+        }
     </style>
 </head>
+
 <body>
     <nav class="navbar navbar-expand-lg navbar-light bg-light">
-        <a href="#" class="navbar-brand">MyHome</a>
+        <a href="#" class="navbar-brand d-flex align-items-center">
+            <img src="home.png" alt="MyHome Logo" class="mr-2" style="height: 40px;">
+            MyHome
+        </a>
         <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarNav" aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
             <span class="navbar-toggler-icon"></span>
         </button>
-         
+        <div class="collapse navbar-collapse" id="navbarNav">
+            <ul class="navbar-nav ml-auto">
+                <!-- Switch to Tenant Button -->
+                <li class="nav-item">
+                    <a href="renters.html" class="btn btn-outline-primary mr-2">Switch to Tenant</a>
+                </li>
+                <!-- Logout Button -->
+                <li class="nav-item">
+                    <a href="index.html" class="btn btn-outline-danger">Logout</a>
+                </li>
+            </ul>
+        </div>
     </nav>
 
     <div class="container-fluid px-4 py-8">
@@ -107,12 +131,12 @@
                     <p class="text-gray-600">Real Estate Agent</p>
                 </div>
             </div>
-            
+
             <!-- Agent's Message -->
             <div class="bg-blue-50 p-4 rounded-lg mb-6 animate-fade-in delay-300">
                 <p class="italic text-gray-700">"Welcome to MyHome! I'm dedicated to helping you find the perfect apartment that meets all your needs. Let's make your housing search smooth and enjoyable!"</p>
             </div>
-            
+
             <!-- Location Information -->
             <div class="mb-6 animate-fade-in delay-500">
                 <h2 class="text-xl font-semibold mb-2">Apartment Location</h2>
@@ -133,7 +157,6 @@
 
         <!-- Upload and Information Sections -->
         <div class="row">
-            <!-- Video Upload Section -->
             <div class="col-md-6 mb-4">
                 <div class="bg-white shadow-md rounded-lg p-6 animate-fade-in delay-700 animated-border hover-glow">
                     <h2 class="text-xl font-semibold mb-4">Property Video Upload</h2>
@@ -147,10 +170,9 @@
                 </div>
             </div>
 
-            <!-- Tenant Video Upload Section -->
             <div class="col-md-6 mb-4">
                 <div class="bg-white shadow-md rounded-lg p-6 animate-fade-in delay-900 animated-border hover-glow">
-                    <h2 class="text-xl font-semibold mb-4">Tenant image Upload</h2>
+                    <h2 class="text-xl font-semibold mb-4">Tenant Image Upload</h2>
                     <div class="border-2 border-dashed border-gray-300 rounded-lg p-6 text-center transition transform hover:border-blue-500 hover:shadow-lg">
                         <input type="file" accept="video/*" class="hidden" id="videoUpload2">
                         <label for="videoUpload2" class="cursor-pointer">
@@ -191,7 +213,7 @@
         </div>
     </div>
 
-    <footer class="bg-light text-center py-3" style="background-color: rgba(248, 249, 250, 0.8) !important;"></footer>
+    <footer class="bg-light text-center py-3 animated-footer">
         <p>&copy; 2024 MyHome Real Estate App</p>
     </footer>
 
@@ -199,4 +221,5 @@
     <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.5.4/dist/umd/popper.min.js"></script>
     <script src="https://cdn.jsdelivr.net/npm/bootstrap@4.5.2/dist/js/bootstrap.min.js"></script>
 </body>
+
 </html>
