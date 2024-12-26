@@ -2,10 +2,10 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-
+ 
 app = Flask(__name__)
 app.secret_key = 'dontfuckwithme!'  # Replace with a secure secret key
-
+ 
 # Configure SQLAlchemy with MySQL
 app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:FlavianLeonar2003$@localhost/myhome'
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
@@ -15,10 +15,13 @@ bcrypt = Bcrypt(app)
 # Define the User model
 class User(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    email = db.Column(db.String(120), unique=True, nullable=False)
-    password = db.Column(db.String(128), nullable=False)  # Store hashed passwords
+    email = db.Column(db.String(100), unique=True, nullable=False)
+    password = db.Column(db.String(100), nullable=False)
     name = db.Column(db.String(100), nullable=False)
-    contact = db.Column(db.String(15), nullable=False)
+    contact = db.Column(db.String(100), nullable=False)
+
+    def __repr__(self):
+        return f"User('{self.email}', '{self.name}', '{self.contact}')"
 
 # Create database tables
 with app.app_context():
