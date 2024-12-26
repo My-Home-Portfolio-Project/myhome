@@ -2,14 +2,26 @@
 from flask import Flask, render_template, request, redirect, url_for, flash, session
 from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
- 
+from sqlalchemy import create_engine
+from sqlalchemy.orm import scoped_session, sessionmaker
+
 app = Flask(__name__)
 app.secret_key = 'dontfuckwithme!'  # Replace with a secure secret key
- 
-# Configure SQLAlchemy with MySQL
-app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:FlavianLeonar2003$@localhost/myhome'
+
+# Configure database URI
+DATABASE_URI = 'mysql+pymysql://root:FlavianLeonar2003$@localhost/myhomeusers'
+
+# Use create_engine to explicitly set up the database engine
+engine = create_engine(DATABASE_URI, echo=False)
+
+# Configure Flask-SQLAlchemy
+app.config['SQLALCHEMY_DATABASE_URI'] = DATABASE_URI
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 db = SQLAlchemy(app)
+
+# Set up a scoped session for manual queries (optional)
+Session = scoped_session(sessionmaker(bind=engine))
+
 bcrypt = Bcrypt(app)
 
 # Define the User model
