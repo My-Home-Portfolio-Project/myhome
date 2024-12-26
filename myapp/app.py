@@ -1,29 +1,50 @@
-from flask import Flask, render_template, request, redirect, url_for, flash
+#!/usr/bin/env python3
+from flask import Flask, render_template, request, redirect, url_for, flash, session
+from flask_sqlalchemy import SQLAlchemy
 from flask_bcrypt import Bcrypt
-from models import User, session
 
 app = Flask(__name__)
-app.secret_key = 'your_secret_key'
+app.secret_key = 'dontfuckwithme!'  # Replace with a secure secret key
+
+# Configure SQLAlchemy with MySQL
+app.config['SQLALCHEMY_DATABASE_URI'] = 'mysql+pymysql://root:FlavianLeonar2003$@localhost/myhome'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+db = SQLAlchemy(app)
 bcrypt = Bcrypt(app)
+
+# Define the User model
+class User(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    email = db.Column(db.String(120), unique=True, nullable=False)
+    password = db.Column(db.String(128), nullable=False)  # Store hashed passwords
+    name = db.Column(db.String(100), nullable=False)
+    contact = db.Column(db.String(15), nullable=False)
+
+# Create database tables
+with app.app_context():
+    db.create_all()
 
 @app.route('/register', methods=['GET', 'POST'])
 def register():
     if request.method == 'POST':
         email = request.form['email']
-        username = request.form['username']
-        password = bcrypt.generate_password_hash(request.form['password']).decode('utf-8')
+        password = request.form['password']
+        name = request.form['name']
+        contact = request.form['contact']
 
-        # Check if the user already exists
-        existing_user = session.query(User).filter_by(email=email).first()
-        if existing_user:
-            flash('Email already registered!', 'danger')
+        # Check if user already exists
+        if User.query.filter_by(email=email).first():
+            flash('Email already registered. Please log in.', 'danger')
             return redirect(url_for('register'))
 
-        # Add the user to the database
-        new_user = User(email=email, username=username, password=password)
-        session.add(new_user)
-        session.commit()
-        flash('Registration successful! Please login.', 'success')
+        # Hash the password before saving
+        hashed_password = bcrypt.generate_password_hash(password).decode('utf-8')
+
+        # Save user to the database
+        new_user = User(email=email, password=hashed_password, name=name, contact=contact)
+        db.session.add(new_user)
+        db.session.commit()
+        flash('Registration successful. You can now log in.', 'success')
         return redirect(url_for('login'))
 
     return render_template('register.html')
@@ -34,19 +55,32 @@ def login():
         email = request.form['email']
         password = request.form['password']
 
-        # Authenticate user
-        user = session.query(User).filter_by(email=email).first()
+        # Find the user by email
+        user = User.query.filter_by(email=email).first()
+
         if user and bcrypt.check_password_hash(user.password, password):
-            flash('Login successful!', 'success')
+            # Store user session
+            session['user_id'] = user.id
+            session['user_name'] = user.name
+            flash(f'Welcome, {user.name}!', 'success')
             return redirect(url_for('dashboard'))
         else:
-            flash('Invalid email or password!', 'danger')
+            flash('Invalid email or password. Please try again.', 'danger')
 
     return render_template('login.html')
 
 @app.route('/dashboard')
 def dashboard():
-    return "Welcome to your dashboard!"
+    if 'user_id' not in session:
+        flash('Please log in to access this page.', 'danger')
+        return redirect(url_for('login'))
+    return f"Welcome to your dashboard, {session['user_name']}!"
+
+@app.route('/logout')
+def logout():
+    session.clear()
+    flash('You have been logged out.', 'success')
+    return redirect(url_for('login'))
 
 if __name__ == '__main__':
     app.run(debug=True)
