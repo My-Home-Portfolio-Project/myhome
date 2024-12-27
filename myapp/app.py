@@ -9,7 +9,7 @@ app = Flask(__name__)
 app.secret_key = 'dontfuckwithme!'  # Replace with a secure secret key
 
 # Configure database URI
-DATABASE_URI = 'mysql+pymysql://root:FlavianLeonar2003$@localhost/myhomeusers'
+DATABASE_URI = 'mysql+pymysql://root:FlavianLeonar2003$@localhost/myhome'
 
 # Use create_engine to explicitly set up the database engine
 engine = create_engine(DATABASE_URI, echo=False)
