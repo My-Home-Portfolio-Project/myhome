@@ -1,18 +1,4 @@
 {
     "php.validate.executablePath": "",
-    "sqltools.connections": [
-        {
-            "mysqlOptions": {
-                "authProtocol": "xprotocol",
-                "enableSsl": "Disabled"
-            },
-            "previewLimit": 50,
-            "server": "localhost",
-            "port": 3306,
-            "driver": "MySQL",
-            "database": "myhome",
-            "username": "root",
-            "name": "Local instance MySQL80"
-        }
-    ]
+    "sqltools.connections": []
 }

@@ -118,7 +118,7 @@
 <div class="container">
     <div class="form-container">
         <h2>Sign Up for myHome</h2>
-        <form   method="post" action="process-signup.php">
+        <form  action="./process-signup.php" method="POST" novalidate>
             <div class="input-group">
                 <label for="email">Email</label>
                 <input type="email" id="email" name="email" required placeholder="Enter your email">
@@ -128,11 +128,11 @@
                 <input type="password" id="password" name="password" required placeholder="Enter your password">
             </div>
             <div class="input-group"> 
-                <label for="repeat_password" >repeat password</label>
+                <label for="repeat_password" >repeat_password</label>
                 <input type="password" id="repeat_password" name="repeat_password" required placeholder="repeat your password">
             </div> 
             <div class="input-group">
-                <label for="name">Full Name</label>
+                <label for="name">name</label>
                 <input type="text" id="name" name="name" required placeholder="Enter your full name">
             </div>
             <div class="input-group">
